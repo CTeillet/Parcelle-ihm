@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ShapeService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getParcellesShapes() {
     return this.http.get('http://localhost:8081/parcelle');
@@ -16,7 +16,7 @@ export class ShapeService {
   //send a delete request to the API parcelle with the list of id in the body we want to delete. The ids are string, and we send a delete request
   deleteParcelles(ids: string[]) {
     return this.http.delete('http://localhost:8081/parcelle', {
-      body: ids
+      body: ids,
     });
   }
 
@@ -25,5 +25,4 @@ export class ShapeService {
     return this.http.get('http://localhost:8081/generatePateTemporaires');
     // return this.http.get('assets/data/pates.json');
   }
-
 }
