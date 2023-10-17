@@ -21,13 +21,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: NPM Install
-        run: |
-          npm install
-          echo ${{ secrets.SSH_PRIVATE_KEY}}
+        run: npm install
       - name: NPM Install Angular
         run: npm install -g @angular/cli > /dev/null
       - name: Lint
         run: npm run lint
+      - name: Utiliser un secret
+        run: echo ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Prettier
         run: npm run prettier
       - name: NPM build Angular Production
