@@ -12,9 +12,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { GestionParcelleComponent } from './gestion-parcelle/gestion-parcelle.component';
+import { GestionPateComponent } from './gestion-pate/gestion-pate.component';
+import { GestionTerritoireComponent } from './gestion-territoire/gestion-territoire.component';
 
 @NgModule({
-  declarations: [AppComponent, MapComponent, HeaderComponent],
+  declarations: [
+    AppComponent,
+    MapComponent,
+    HeaderComponent,
+    GestionParcelleComponent,
+    GestionPateComponent,
+    GestionTerritoireComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
