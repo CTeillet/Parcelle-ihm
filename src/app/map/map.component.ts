@@ -28,7 +28,9 @@ L.Marker.prototype.options.icon = iconDefault;
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit {
-  private map: any;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  protected map: L.Map;
   private parcelles: any;
 
   private selection = [] as string[];
@@ -39,25 +41,6 @@ export class MapComponent implements AfterViewInit {
     private shapeService: ShapeService,
     private popupService: PopUpService
   ) {}
-
-  private initMap(): void {
-    this.map = L.map('map', {
-      center: [48.707216, 2.368604],
-      zoom: 15,
-    });
-
-    const tiles = L.tileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      {
-        maxZoom: 18,
-        minZoom: 3,
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }
-    );
-
-    tiles.addTo(this.map);
-  }
 
   private highlightFeature(layer: any) {
     layer.setStyle({
@@ -137,7 +120,6 @@ export class MapComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.initMap();
     this.shapeService.getParcellesShapes().subscribe((parcelles: any) => {
       this.parcelles = parcelles;
       this.initStatesLayer();
@@ -196,5 +178,24 @@ export class MapComponent implements AfterViewInit {
 
     this.map.addLayer(parcelleLayer);
     parcelleLayer.bringToBack();
+  }
+
+  private initMap(): void {
+    this.map = L.map('map', {
+      center: [48.707216, 2.368604],
+      zoom: 15,
+    });
+
+    const tiles = L.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        maxZoom: 18,
+        minZoom: 3,
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }
+    );
+
+    tiles.addTo(this.map);
   }
 }

@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { GestionParcelleComponent } from './gestion-parcelle/gestion-parcelle.component';
 import { GestionPateComponent } from './gestion-pate/gestion-pate.component';
 import { GestionTerritoireComponent } from './gestion-territoire/gestion-territoire.component';
+import { CarteComponent } from './map/carte/carte.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { GestionTerritoireComponent } from './gestion-territoire/gestion-territo
     GestionParcelleComponent,
     GestionPateComponent,
     GestionTerritoireComponent,
+    CarteComponent,
   ],
   imports: [
     BrowserModule,
