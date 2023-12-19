@@ -1,11 +1,21 @@
-<app-carte [(map)]="map"></app-carte>
+<app-carte
+  [data]="parcelles"
+  [createPopUp]="this.popupService.makeShapePopup"></app-carte>
+
+<button
+  mat-flat-button
+  color="warn"
+  (click)="console.log('clearParcelles')"
+  style="width: 50vw; height: 10vh; font-size: 2vh">
+  Vider la sélection
+</button>
 
 <div>
   <!-- Add a mat-flat-button to call the deleteParcelles method-->
   <button
     mat-flat-button
     color="warn"
-    (click)="deleteParcelles()"
+    (click)="console.log('deleteParcelles')"
     style="width: 50vw; height: 10vh; font-size: 2vh">
     Suppression de la sélection
   </button>
@@ -14,7 +24,7 @@
   <button
     mat-flat-button
     color="primary"
-    (click)="generationPatesTemporaire()"
+    (click)="console.log('generateParcelles')"
     style="width: 50vw; height: 10vh; font-size: 2vh">
     Génération des patés de maisons
   </button>

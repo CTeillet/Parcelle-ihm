@@ -22,6 +22,5 @@ export class ShapeService {
   //send a get request to the API generatePateTemporaires
   generatePateTemporaires() {
     return this.http.get(environment.apiUrl + '/generatePateTemporaires');
-    // return this.http.get('assets/data/pates.json');
   }
 }
