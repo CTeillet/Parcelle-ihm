@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './gestion-pate.component.html',
   styleUrls: ['./gestion-pate.component.css'],
 })
-export class GestionPateComponent {}
+export class GestionPateComponent {
+  protected readonly console = console;
+}

@@ -1,13 +1,30 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import * as L from 'leaflet';
 import { GeoJSON, Layer, PopupEvent } from 'leaflet';
 import { Feature, Geometry } from 'geojson';
+
+const iconRetinaUrl = 'assets/marker-icon-2x.png';
+const iconUrl = 'assets/marker-icon.png';
+const shadowUrl = 'assets/marker-shadow.png';
+const iconDefault = L.icon({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41],
+});
+L.Marker.prototype.options.icon = iconDefault;
 
 @Component({
   selector: 'app-carte',
@@ -17,13 +34,18 @@ import { Feature, Geometry } from 'geojson';
 export class CarteComponent implements OnInit, OnChanges {
   @Input()
   public data!: GeoJSON.GeoJsonObject;
+
   @Input()
   public createPopUp!: (feature: Feature<Geometry, string>) => string;
+
   protected map!: L.Map;
+
   private readonly _SELECTED_COLOR = '#FAE042';
 
   private readonly _NOT_SELECTED_COLOR = '#6DB65B';
 
+  @Output()
+  private selectionEvent = new EventEmitter<string[]>();
   private selection = [] as string[];
 
   ngOnInit(): void {
@@ -105,12 +127,24 @@ export class CarteComponent implements OnInit, OnChanges {
 
   private addToSelection(feature: Feature<Geometry, any>, e: PopupEvent) {
     this.selection.push(feature.properties.id);
+    this.selectionEvent.emit(this.selection);
     this.resetFeature(e.target);
   }
 
   private removeFromSelection(feature: Feature<Geometry, any>, e: PopupEvent) {
     this.selection = this.selection.filter(id => id !== feature.properties.id);
+    this.selectionEvent.emit(this.selection);
     this.resetFeature(e.target);
+  }
+
+  protected clearSelection() {
+    this.selection = [];
+    this.selectionEvent.emit(this.selection);
+    this.map.eachLayer(layer => {
+      if (layer instanceof GeoJSON) {
+        this.resetFeature(layer);
+      }
+    });
   }
 
   private highlightFeature(layer: any) {
@@ -129,4 +163,6 @@ export class CarteComponent implements OnInit, OnChanges {
       this.initParcellesLayer();
     }
   }
+
+  protected readonly console = console;
 }

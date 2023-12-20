@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { MapComponent } from './map/map.component';
 import { MarkerService } from './service/marker.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PopUpService } from './service/popup.service';
@@ -15,12 +14,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { GestionParcelleComponent } from './gestion-parcelle/gestion-parcelle.component';
 import { GestionPateComponent } from './gestion-pate/gestion-pate.component';
 import { GestionTerritoireComponent } from './gestion-territoire/gestion-territoire.component';
-import { CarteComponent } from './map/carte/carte.component';
+import { CarteComponent } from './carte/carte.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent,
     HeaderComponent,
     GestionParcelleComponent,
     GestionPateComponent,
@@ -34,6 +33,7 @@ import { CarteComponent } from './map/carte/carte.component';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
+    AppRoutingModule,
   ],
   providers: [MarkerService, PopUpService, ShapeService],
   bootstrap: [AppComponent],
