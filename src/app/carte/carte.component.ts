@@ -3,12 +3,11 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import * as L from 'leaflet';
-import { GeoJSON, Layer, PopupEvent } from 'leaflet';
+import { GeoJSON, latLng, Layer, PopupEvent, tileLayer } from 'leaflet';
 import { Feature, Geometry } from 'geojson';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
@@ -31,7 +30,7 @@ L.Marker.prototype.options.icon = iconDefault;
   templateUrl: './carte.component.html',
   styleUrls: ['./carte.component.css'],
 })
-export class CarteComponent implements OnInit, OnChanges {
+export class CarteComponent implements OnChanges {
   @Input()
   public data!: GeoJSON.GeoJsonObject;
 
@@ -44,32 +43,22 @@ export class CarteComponent implements OnInit, OnChanges {
 
   private readonly _NOT_SELECTED_COLOR = '#6DB65B';
 
-  @Output()
-  private selectionEvent = new EventEmitter<string[]>();
-  private selection = [] as string[];
-
-  ngOnInit(): void {
-    this.initMap();
-  }
-
-  private initMap(): void {
-    this.map = L.map('map', {
-      center: [48.707216, 2.368604],
-      zoom: 15,
-    });
-
-    const tiles = L.tileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      {
+  options = {
+    layers: [
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
-        minZoom: 3,
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }
-    );
+      }),
+    ],
+    zoom: 15,
+    center: latLng(48.707216, 2.368604),
+  };
 
-    tiles.addTo(this.map);
-  }
+  @Output()
+  private selectionChange = new EventEmitter<string[]>();
+  @Input()
+  public selection = [] as string[];
 
   private readonly defaultStyleFeature = {
     weight: 3,
@@ -127,19 +116,20 @@ export class CarteComponent implements OnInit, OnChanges {
 
   private addToSelection(feature: Feature<Geometry, any>, e: PopupEvent) {
     this.selection.push(feature.properties.id);
-    this.selectionEvent.emit(this.selection);
+    this.selectionChange.emit(this.selection);
     this.resetFeature(e.target);
+    console.log(this.selection);
   }
 
   private removeFromSelection(feature: Feature<Geometry, any>, e: PopupEvent) {
     this.selection = this.selection.filter(id => id !== feature.properties.id);
-    this.selectionEvent.emit(this.selection);
+    this.selectionChange.emit(this.selection);
     this.resetFeature(e.target);
   }
 
   protected clearSelection() {
     this.selection = [];
-    this.selectionEvent.emit(this.selection);
+    this.selectionChange.emit(this.selection);
     this.map.eachLayer(layer => {
       if (layer instanceof GeoJSON) {
         this.resetFeature(layer);
@@ -159,10 +149,25 @@ export class CarteComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
-    if (changes['data'].currentValue) {
+    if (changes['data']?.currentValue) {
+      console.log('data changed');
       this.initParcellesLayer();
+    } else if (changes['selection']) {
+      console.log('selection changed');
+      const diff = changes['selection'].previousValue.filter(
+        (x: string) => !changes['selection'].currentValue.includes(x)
+      );
+      console.log(diff);
+      this.map.eachLayer(layer => {
+        if (layer instanceof GeoJSON) {
+          console.log(layer);
+          this.resetFeature(layer);
+        }
+      });
     }
   }
 
-  protected readonly console = console;
+  onMapReady(map: L.Map) {
+    this.map = map;
+  }
 }

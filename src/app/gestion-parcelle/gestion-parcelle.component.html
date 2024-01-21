@@ -2,7 +2,7 @@
   id="map"
   [data]="parcelles"
   [createPopUp]="this.popupService.makeShapePopup"
-  (selectionEvent)="changeSelection($event)"></app-carte>
+  [(selection)]="selection"></app-carte>
 
 <!-- Add a mat-flat-button to call the deleteParcelles method-->
 <button
@@ -11,4 +11,12 @@
   style="width: 50vw; height: 10vh; font-size: 2vh"
   (click)="deleteParcelles()">
   Suppression de la sélection
+</button>
+
+<button
+  mat-flat-button
+  color="warn"
+  style="width: 50vw; height: 10vh; font-size: 2vh"
+  (click)="addSelection()">
+  Ajout à la sélection
 </button>

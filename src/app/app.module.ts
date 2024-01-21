@@ -16,6 +16,7 @@ import { GestionPateComponent } from './gestion-pate/gestion-pate.component';
 import { GestionTerritoireComponent } from './gestion-territoire/gestion-territoire.component';
 import { CarteComponent } from './carte/carte.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatIconModule,
     MatButtonModule,
     AppRoutingModule,
+    LeafletModule,
   ],
   providers: [MarkerService, PopUpService, ShapeService],
   bootstrap: [AppComponent],

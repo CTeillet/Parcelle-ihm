@@ -1,8 +1,8 @@
-<div class="map-container">
-  <div class="map-frame">
-    <div id="map"></div>
-  </div>
-</div>
+<div
+  style="height: 70%"
+  leaflet
+  [leafletOptions]="options"
+  (leafletMapReady)="onMapReady($event)"></div>
 
 <button
   mat-flat-button

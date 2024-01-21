@@ -1,10 +1,7 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { ShapeService } from '../service/shape.service';
 import { PopUpService } from '../service/popup.service';
 import { firstValueFrom } from 'rxjs';
-import { Feature } from 'geojson';
-import { GeoJSON } from 'leaflet';
-import { CarteComponent } from '../carte/carte.component';
 
 @Component({
   selector: 'app-gestion-parcelle',
@@ -12,7 +9,7 @@ import { CarteComponent } from '../carte/carte.component';
   styleUrls: ['./gestion-parcelle.component.css'],
 })
 export class GestionParcelleComponent implements AfterViewInit {
-  private selection: string[] | undefined;
+  protected selection = [] as string[];
   protected parcelles!: GeoJSON.FeatureCollection;
 
   // @ViewChild('map') map: CarteComponent | undefined;
@@ -29,6 +26,7 @@ export class GestionParcelleComponent implements AfterViewInit {
   }
 
   changeSelection($event: string[]) {
+    console.log($event);
     this.selection = $event;
   }
 
@@ -57,4 +55,9 @@ export class GestionParcelleComponent implements AfterViewInit {
   //     this.initStatesLayerPate();
   //   });
   // }
+  addSelection() {
+    //Add element 910270000A0251 to the selection
+    this.selection.push('910270000A0251');
+    console.log(this.selection);
+  }
 }
