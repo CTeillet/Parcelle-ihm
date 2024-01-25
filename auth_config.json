@@ -1,0 +1,6 @@
+{
+  "domain": "dev-4eadoxd4.us.auth0.com",
+  "clientId": "5LccA8StQb2g2IUtuqHe85UeanqhYZ05",
+  "audience": "http://localhost:8080",
+  "serverUrl": "http://localhost:8080"
+}

@@ -27,8 +27,12 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ]
+        ],
+        // Ajoutez ces règles pour résoudre l'erreur d'importation
+        "import/no-named-as-default": 0,
+        "import/no-named-as-default-member": 0
       }
+
     },
     {
       "files": ["*.html"],

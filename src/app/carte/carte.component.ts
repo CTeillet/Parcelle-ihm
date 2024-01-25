@@ -154,16 +154,18 @@ export class CarteComponent implements OnChanges {
       this.initParcellesLayer();
     } else if (changes['selection']) {
       console.log('selection changed');
-      const diff = changes['selection'].previousValue.filter(
-        (x: string) => !changes['selection'].currentValue.includes(x)
-      );
-      console.log(diff);
-      this.map.eachLayer(layer => {
-        if (layer instanceof GeoJSON) {
-          console.log(layer);
-          this.resetFeature(layer);
-        }
-      });
+      if (changes['selection'].previousValue?.length >= 0) {
+        const diff = changes['selection'].previousValue.filter(
+          (x: string) => !changes['selection'].currentValue.includes(x)
+        );
+        console.log(diff);
+        this.map.eachLayer(layer => {
+          if (layer instanceof GeoJSON) {
+            console.log(layer);
+            this.resetFeature(layer);
+          }
+        });
+      }
     }
   }
 

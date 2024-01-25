@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
 import { PopUpService } from './popup.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,8 @@ export class MarkerService {
 
   constructor(
     private http: HttpClient,
-    private popupService: PopUpService
+    private popupService: PopUpService,
+    private authService: AuthService
   ) {}
 
   static scaledRadius(val: number, maxVal: number): number {
@@ -19,6 +21,9 @@ export class MarkerService {
   }
 
   makeCapitalMarkers(map: L.Map): void {
+    this.authService.idTokenClaims$.subscribe(claims => {
+      console.log(claims);
+    });
     this.http.get(this.capitals).subscribe((res: any) => {
       for (const c of res.features) {
         const lon = c.geometry.coordinates[0];

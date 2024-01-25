@@ -17,6 +17,10 @@ import { GestionTerritoireComponent } from './gestion-territoire/gestion-territo
 import { CarteComponent } from './carte/carte.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { AuthModule } from '@auth0/auth0-angular';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { environment as env } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -36,8 +40,23 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     MatButtonModule,
     AppRoutingModule,
     LeafletModule,
+    AuthModule.forRoot({
+      ...env.auth,
+      httpInterceptor: {
+        allowedList: [`${env.dev.serverUrl}/api/private/*`],
+      },
+    }),
   ],
-  providers: [MarkerService, PopUpService, ShapeService],
+  providers: [
+    MarkerService,
+    PopUpService,
+    ShapeService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
