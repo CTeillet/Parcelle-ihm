@@ -4,20 +4,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class PopUpService {
-  makeCapitalPopup(data: any): string {
+  makeShapePopup(data: unknown): string {
     return (
       `` +
-      `<div>Capital: ${data.name}</div>` +
-      `<div>State: ${data.state}</div>` +
-      `<div>Population: ${data.population}</div>`
-    );
-  }
-
-  makeShapePopup(data: any): string {
-    return (
-      `` +
+      // @ts-expect-error TODO: fix this
       `<div>Ville : ${data.properties.commune}</div>` +
+      // @ts-expect-error TODO: fix this
       `<div>Surface : ${data.properties.surface}</div>` +
+      // @ts-expect-error TODO: fix this
       `<div>Adresse : ${data.properties.adresse}</div>` +
       // add a button to delete the shape that call the function deleteShape
       `<button class="add-shape">Add</button>` +

@@ -2,6 +2,7 @@ import { AfterViewInit, Component } from '@angular/core';
 import { ShapeService } from '../service/shape.service';
 import { PopUpService } from '../service/popup.service';
 import { firstValueFrom } from 'rxjs';
+import { GeoJSON } from 'leaflet';
 
 @Component({
   selector: 'app-gestion-parcelle',
@@ -20,7 +21,8 @@ export class GestionParcelleComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.shapeService.getParcellesShapes().subscribe((parcelles: any) => {
+    this.shapeService.getParcellesShapes().subscribe((parcelles: unknown) => {
+      // @ts-expect-error TODO: fix this
       this.parcelles = parcelles;
     });
   }
@@ -35,7 +37,7 @@ export class GestionParcelleComponent implements AfterViewInit {
       return;
     }
     firstValueFrom(this.shapeService.deleteParcelles(this.selection))
-      .then((response: any) => {
+      .then(() => {
         // Suppression des elements de la selection dans la liste des parcelles
         this.parcelles.features = this.parcelles.features.filter(
           feature => !this.selection?.includes(feature.properties?.['id'])

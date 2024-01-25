@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { MarkerService } from './service/marker.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PopUpService } from './service/popup.service';
 import { ShapeService } from './service/shape.service';
@@ -48,7 +47,6 @@ import { environment as env } from '../environments/environment';
     }),
   ],
   providers: [
-    MarkerService,
     PopUpService,
     ShapeService,
     {

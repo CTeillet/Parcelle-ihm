@@ -83,8 +83,9 @@ export class CarteComponent implements OnChanges {
     parcelleLayer.bringToBack();
   }
 
-  private resetFeature(layer: any) {
+  private resetFeature(layer: unknown) {
     const fillColor = this.getFillColor(layer);
+    // @ts-expect-error Don't know the type of layer TODO: fix this
     layer.setStyle({
       weight: 3,
       opacity: 0.5,
@@ -94,13 +95,15 @@ export class CarteComponent implements OnChanges {
     });
   }
 
-  private getFillColor(layer: any) {
+  private getFillColor(layer: unknown) {
+    // @ts-expect-error Don't know the type of layer TODO: fix this
     return this.selection.includes(layer.feature?.properties.id)
       ? this._SELECTED_COLOR
       : this._NOT_SELECTED_COLOR;
   }
 
-  private bindPopUpAction(layer: Layer, feature: Feature<Geometry, any>) {
+  private bindPopUpAction(layer: Layer, feature: Feature<Geometry, unknown>) {
+    // @ts-expect-error Don't know the type of feature TODO: fix this
     layer.bindPopup(this.createPopUp(feature)).on('popupopen', e => {
       const popUp = e.target.getPopup();
       popUp
@@ -114,14 +117,19 @@ export class CarteComponent implements OnChanges {
     });
   }
 
-  private addToSelection(feature: Feature<Geometry, any>, e: PopupEvent) {
+  private addToSelection(feature: Feature<Geometry, unknown>, e: PopupEvent) {
+    // @ts-expect-error Don't know the type of feature TODO: fix this
     this.selection.push(feature.properties.id);
     this.selectionChange.emit(this.selection);
     this.resetFeature(e.target);
     console.log(this.selection);
   }
 
-  private removeFromSelection(feature: Feature<Geometry, any>, e: PopupEvent) {
+  private removeFromSelection(
+    feature: Feature<Geometry, unknown>,
+    e: PopupEvent
+  ) {
+    // @ts-expect-error Don't know the type of feature TODO: fix this
     this.selection = this.selection.filter(id => id !== feature.properties.id);
     this.selectionChange.emit(this.selection);
     this.resetFeature(e.target);
@@ -137,7 +145,8 @@ export class CarteComponent implements OnChanges {
     });
   }
 
-  private highlightFeature(layer: any) {
+  private highlightFeature(layer: unknown) {
+    // @ts-expect-error Don't know the type of layer TODO: fix this
     layer.setStyle({
       weight: 10,
       opacity: 1.0,
