@@ -6,9 +6,9 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import * as L from 'leaflet';
 import { GeoJSON, latLng, Layer, PopupEvent, tileLayer } from 'leaflet';
 import { Feature, Geometry } from 'geojson';
+import * as L from 'leaflet';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -26,11 +26,11 @@ const iconDefault = L.icon({
 L.Marker.prototype.options.icon = iconDefault;
 
 @Component({
-  selector: 'app-carte',
-  templateUrl: './carte.component.html',
-  styleUrls: ['./carte.component.css'],
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrl: './map.component.css',
 })
-export class CarteComponent implements OnChanges {
+export class MapComponent implements OnChanges {
   @Input()
   public data!: GeoJSON.GeoJsonObject;
 

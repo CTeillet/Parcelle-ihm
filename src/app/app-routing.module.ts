@@ -1,31 +1,20 @@
 import { RouterModule, Routes } from '@angular/router';
-import { GestionParcelleComponent } from './gestion-parcelle/gestion-parcelle.component';
-import { GestionPateComponent } from './gestion-pate/gestion-pate.component';
-import { GestionTerritoireComponent } from './gestion-territoire/gestion-territoire.component';
 import { NgModule } from '@angular/core';
+import { publicRoutes } from './public/public-routing.module';
+import { protectedRoutes } from './protected/protected-routing.module';
 
 export const routes: Routes = [
   {
-    path: 'gestion-parcelle',
-    component: GestionParcelleComponent,
+    path: 'public',
+    children: publicRoutes,
   },
   {
-    path: 'gestion-pate',
-    component: GestionPateComponent,
-  },
-  {
-    path: 'gestion-territoire',
-    component: GestionTerritoireComponent,
-  },
-  {
-    path: '',
-    redirectTo: '/gestion-parcelle',
-    pathMatch: 'full',
+    path: 'protected',
+    children: protectedRoutes,
   },
   {
     path: '**',
-    redirectTo: '/gestion-parcelle',
-    pathMatch: 'full',
+    redirectTo: 'public',
   },
 ];
 

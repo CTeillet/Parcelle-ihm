@@ -1,15 +1,15 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { ShapeService } from '../service/shape.service';
-import { PopUpService } from '../service/popup.service';
+import { ShapeService } from '../../../service/shape.service';
+import { PopUpService } from '../../../service/popup.service';
 import { firstValueFrom } from 'rxjs';
 import { GeoJSON } from 'leaflet';
 
 @Component({
-  selector: 'app-gestion-parcelle',
-  templateUrl: './gestion-parcelle.component.html',
-  styleUrls: ['./gestion-parcelle.component.css'],
+  selector: 'app-plot',
+  templateUrl: './plot.component.html',
+  styleUrl: './plot.component.css',
 })
-export class GestionParcelleComponent implements AfterViewInit {
+export class PlotComponent implements AfterViewInit {
   protected selection = [] as string[];
   protected parcelles!: GeoJSON.FeatureCollection;
 
@@ -27,10 +27,10 @@ export class GestionParcelleComponent implements AfterViewInit {
     });
   }
 
-  changeSelection($event: string[]) {
-    console.log($event);
-    this.selection = $event;
-  }
+  // changeSelection($event: string[]) {
+  //   console.log($event);
+  //   this.selection = $event;
+  // }
 
   deleteParcelles() {
     if (!this.selection) {
