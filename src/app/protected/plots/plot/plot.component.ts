@@ -1,17 +1,23 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { ShapeService } from '../../../service/shape.service';
-import { PopUpService } from '../../../service/popup.service';
+import { ShapeService } from '../../core/shape.service';
+import { PopUpService } from '../../core/popup.service';
 import { firstValueFrom } from 'rxjs';
 import { GeoJSON } from 'leaflet';
+import { Geometry } from 'geojson';
+import { PlotProperties } from '../../../model/plot.model';
+import { MatButton } from '@angular/material/button';
+import { MapComponent } from '../../shared/map/map.component';
 
 @Component({
   selector: 'app-plot',
   templateUrl: './plot.component.html',
   styleUrl: './plot.component.css',
+  standalone: true,
+  imports: [MapComponent, MatButton],
 })
 export class PlotComponent implements AfterViewInit {
   protected selection = [] as string[];
-  protected parcelles!: GeoJSON.FeatureCollection;
+  protected plots!: GeoJSON.FeatureCollection<Geometry, PlotProperties>;
 
   // @ViewChild('map') map: CarteComponent | undefined;
 
@@ -21,10 +27,13 @@ export class PlotComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.shapeService.getParcellesShapes().subscribe((parcelles: unknown) => {
-      // @ts-expect-error TODO: fix this
-      this.parcelles = parcelles;
-    });
+    this.shapeService
+      .getPlotsShapes()
+      .subscribe(
+        (parcelles: GeoJSON.FeatureCollection<Geometry, PlotProperties>) => {
+          this.plots = parcelles;
+        }
+      );
   }
 
   // changeSelection($event: string[]) {
@@ -36,10 +45,10 @@ export class PlotComponent implements AfterViewInit {
     if (!this.selection) {
       return;
     }
-    firstValueFrom(this.shapeService.deleteParcelles(this.selection))
+    firstValueFrom(this.shapeService.deletePlots(this.selection))
       .then(() => {
         // Suppression des elements de la selection dans la liste des parcelles
-        this.parcelles.features = this.parcelles.features.filter(
+        this.plots.features = this.plots.features.filter(
           feature => !this.selection?.includes(feature.properties?.['id'])
         );
         // this.map?.clearSelection();

@@ -9,6 +9,9 @@ import {
 import { GeoJSON, latLng, Layer, PopupEvent, tileLayer } from 'leaflet';
 import { Feature, Geometry } from 'geojson';
 import * as L from 'leaflet';
+import { PlotProperties } from '../../../model/plot.model';
+import { MatButton } from '@angular/material/button';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -29,13 +32,15 @@ L.Marker.prototype.options.icon = iconDefault;
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
+  standalone: true,
+  imports: [LeafletModule, MatButton],
 })
 export class MapComponent implements OnChanges {
   @Input()
   public data!: GeoJSON.GeoJsonObject;
 
   @Input()
-  public createPopUp!: (feature: Feature<Geometry, string>) => string;
+  public createPopUp!: (feature: Feature<Geometry, PlotProperties>) => string;
 
   protected map!: L.Map;
 
@@ -71,7 +76,7 @@ export class MapComponent implements OnChanges {
   private initParcellesLayer() {
     const parcelleLayer = L.geoJSON(this.data, {
       style: () => this.defaultStyleFeature,
-      onEachFeature: (feature, layer) => {
+      onEachFeature: (feature: Feature<Geometry, PlotProperties>, layer) => {
         layer.on({
           mouseover: e => this.highlightFeature(e.target),
           mouseout: e => this.resetFeature(e.target),
@@ -85,7 +90,7 @@ export class MapComponent implements OnChanges {
 
   private resetFeature(layer: unknown) {
     const fillColor = this.getFillColor(layer);
-    // @ts-expect-error Don't know the type of layer TODO: fix this
+    // @ts-expect-error Don't know the type of layer
     layer.setStyle({
       weight: 3,
       opacity: 0.5,
@@ -102,8 +107,10 @@ export class MapComponent implements OnChanges {
       : this._NOT_SELECTED_COLOR;
   }
 
-  private bindPopUpAction(layer: Layer, feature: Feature<Geometry, unknown>) {
-    // @ts-expect-error Don't know the type of feature TODO: fix this
+  private bindPopUpAction(
+    layer: Layer,
+    feature: Feature<Geometry, PlotProperties>
+  ) {
     layer.bindPopup(this.createPopUp(feature)).on('popupopen', e => {
       const popUp = e.target.getPopup();
       popUp
@@ -126,10 +133,9 @@ export class MapComponent implements OnChanges {
   }
 
   private removeFromSelection(
-    feature: Feature<Geometry, unknown>,
+    feature: Feature<Geometry, PlotProperties>,
     e: PopupEvent
   ) {
-    // @ts-expect-error Don't know the type of feature TODO: fix this
     this.selection = this.selection.filter(id => id !== feature.properties.id);
     this.selectionChange.emit(this.selection);
     this.resetFeature(e.target);

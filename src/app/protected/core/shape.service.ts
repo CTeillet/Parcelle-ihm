@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
+import { GeoJSON } from 'leaflet';
+import { Geometry } from 'geojson';
+import { PlotProperties } from '../../model/plot.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,12 +12,16 @@ import { environment } from '../../environments/environment';
 export class ShapeService {
   constructor(private http: HttpClient) {}
 
-  getParcellesShapes() {
-    return this.http.get(environment.dev.serverUrl + '/api/private/parcelle');
+  getPlotsShapes(): Observable<
+    GeoJSON.FeatureCollection<Geometry, PlotProperties>
+  > {
+    return this.http.get<GeoJSON.FeatureCollection<Geometry, PlotProperties>>(
+      environment.dev.serverUrl + '/api/private/parcelle'
+    );
   }
 
   //send a delete request to the API parcelle with the list of id in the body we want to delete. The ids are string, and we send a delete request
-  deleteParcelles(ids: string[]) {
+  deletePlots(ids: string[]) {
     return this.http.delete(
       environment.dev.serverUrl + '/api/private/parcelle',
       {

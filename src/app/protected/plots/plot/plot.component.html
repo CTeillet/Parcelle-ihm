@@ -1,7 +1,7 @@
 <app-map
   id="map"
-  [data]="parcelles"
-  [createPopUp]="this.popupService.makeShapePopup"
+  [data]="plots"
+  [createPopUp]="this.popupService.makePlotPopUp"
   [(selection)]="selection"></app-map>
 
 <!-- Add a mat-flat-button to call the deleteParcelles method-->
