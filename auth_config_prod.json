@@ -1,0 +1,6 @@
+{
+  "domain": "territoire.eu.auth0.com",
+  "clientId": "dlAjRYgDVR27SgRMHGGN3jFia38xuBmr",
+  "audience": "http://localhost:8080",
+  "serverUrl": "http://localhost:8080"
+}
