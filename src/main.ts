@@ -6,7 +6,11 @@ import { environment as env } from './environments/environment';
 import { provideRouter, Routes } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
+import {
+  AuthGuard,
+  AuthHttpInterceptor,
+  AuthModule,
+} from '@auth0/auth0-angular';
 import {
   HTTP_INTERCEPTORS,
   withInterceptorsFromDi,
@@ -17,10 +21,12 @@ const routes: Routes = [
   {
     path: 'public',
     loadChildren: () => import('./app/public/public.routes'),
+    canActivate: [AuthGuard],
   },
   {
     path: 'protected',
     loadChildren: () => import('./app/protected/protected.routes'),
+    canActivate: [AuthGuard],
   },
   {
     path: '**',
