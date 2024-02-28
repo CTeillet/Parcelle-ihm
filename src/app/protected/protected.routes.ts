@@ -28,6 +28,10 @@ export default [
             module => module.BlockComponent
           ),
       },
+      {
+        path: '**',
+        redirectTo: 'plots',
+      },
     ],
   },
 ] as Routes;
