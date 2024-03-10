@@ -15,4 +15,11 @@ export class PopUpService {
       `<button class="remove-shape">Remove</button>`
     );
   }
+
+  makeBlockPopUp(): string {
+    return (
+      `<button class="add-shape">Add</button>` +
+      `<button class="remove-shape">Remove</button>`
+    );
+  }
 }

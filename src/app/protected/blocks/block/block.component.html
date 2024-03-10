@@ -1,3 +1,9 @@
+<app-map
+  id="map"
+  [data]="blocks"
+  [createPopUp]="this.popupService.makeBlockPopUp"
+  [(selection)]="selection"></app-map>
+
 <!-- Add a mat-flat-button to call the deleteParcelles method-->
 <button
   mat-flat-button

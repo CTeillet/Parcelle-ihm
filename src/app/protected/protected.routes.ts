@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { PopUpService } from './core/popup.service';
-import { ShapeService } from './core/shape.service';
+import { PlotService } from './core/plot.service';
 
 export default [
   {
     path: '',
-    providers: [PopUpService, ShapeService],
+    providers: [PopUpService, PlotService],
     children: [
       {
         path: 'plots',

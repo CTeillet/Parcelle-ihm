@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { GeoJSON } from 'leaflet';
 import { Geometry } from 'geojson';
 import { PlotProperties } from '../../model/plot.model';
 import { Observable } from 'rxjs';
+import { GeoJSON } from 'leaflet';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ShapeService {
+export class PlotService {
   constructor(private http: HttpClient) {}
 
   getPlotsShapes(): Observable<
@@ -34,6 +34,19 @@ export class ShapeService {
   generatePateTemporaires() {
     return this.http.get(
       environment.dev.serverUrl + '/api/private/generatePateTemporaires'
+    );
+  }
+
+  generateBlock(selection: string[]) {
+    return this.http.post(
+      environment.dev.serverUrl + '/api/private/block',
+      selection
+    );
+  }
+
+  getBlock(): Observable<GeoJSON.FeatureCollection<Geometry, PlotProperties>> {
+    return this.http.get<GeoJSON.FeatureCollection<Geometry, PlotProperties>>(
+      environment.dev.serverUrl + '/api/private/block'
     );
   }
 }

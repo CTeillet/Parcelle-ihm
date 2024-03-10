@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { ShapeService } from '../../core/shape.service';
+import { PlotService } from '../../core/plot.service';
 import { PopUpService } from '../../core/popup.service';
 import { firstValueFrom } from 'rxjs';
 import { GeoJSON } from 'leaflet';
@@ -19,10 +19,8 @@ export class PlotComponent implements AfterViewInit {
   protected selection = [] as string[];
   protected plots!: GeoJSON.FeatureCollection<Geometry, PlotProperties>;
 
-  // @ViewChild('map') map: CarteComponent | undefined;
-
   constructor(
-    private shapeService: ShapeService,
+    private shapeService: PlotService,
     public popupService: PopUpService
   ) {}
 
@@ -35,11 +33,6 @@ export class PlotComponent implements AfterViewInit {
         }
       );
   }
-
-  // changeSelection($event: string[]) {
-  //   console.log($event);
-  //   this.selection = $event;
-  // }
 
   deleteParcelles() {
     if (!this.selection) {
@@ -66,9 +59,17 @@ export class PlotComponent implements AfterViewInit {
   //     this.initStatesLayerPate();
   //   });
   // }
-  addSelection() {
-    //Add element 910270000A0251 to the selection
-    this.selection.push('910270000A0251');
-    console.log(this.selection);
+  // addSelection() {
+  //   //Add element 910270000A0251 to the selection
+  //   console.log(this.selection);
+  // }
+
+  generateBlock() {
+    //call the service generateBlock
+    this.shapeService
+      .generateBlock(this.selection)
+      .subscribe((response: unknown) => {
+        console.log(response);
+      });
   }
 }
