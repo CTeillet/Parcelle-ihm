@@ -1,6 +1,6 @@
 {
   "domain": "territoire.eu.auth0.com",
   "clientId": "dlAjRYgDVR27SgRMHGGN3jFia38xuBmr",
-  "audience": "https://parcelle.cteillet.fr:8080",
-  "serverUrl": "https://parcelle.cteillet.fr:8080"
+  "audience": "parcelle.cteillet.fr:8080",
+  "serverUrl": "parcelle.cteillet.fr:8080"
 }
