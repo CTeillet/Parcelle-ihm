@@ -16,18 +16,15 @@ export class PlotService {
     GeoJSON.FeatureCollection<Geometry, PlotProperties>
   > {
     return this.http.get<GeoJSON.FeatureCollection<Geometry, PlotProperties>>(
-      environment.dev.serverUrl + '/api/private/parcelle'
+      environment.dev.serverUrl + '/api/private/plot'
     );
   }
 
   //send a delete request to the API parcelle with the list of id in the body we want to delete. The ids are string, and we send a delete request
   deletePlots(ids: string[]) {
-    return this.http.delete(
-      environment.dev.serverUrl + '/api/private/parcelle',
-      {
-        body: ids,
-      }
-    );
+    return this.http.delete(environment.dev.serverUrl + '/api/private/plot', {
+      body: ids,
+    });
   }
 
   //send a get request to the API generatePateTemporaires
